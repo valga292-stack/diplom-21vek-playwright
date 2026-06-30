@@ -1,0 +1,49 @@
+name: 21vek UI Automation CI
+
+# Тесты будут запускаться автоматически при каждом push (отправке кода) в ветку infra-setup
+on:
+  push:
+    branches: [ "infra-setup" ]
+  pull_request:
+    branches: [ "infra-setup" ]
+
+jobs:
+  pytest-automation:
+    # Запускаем чистую виртуальную машину Linux Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+    # Шаг 1: Копируем файлы проекта из репозитория на виртуальную машину
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Шаг 2: Устанавливаем чистый Python 3.12
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    # Шаг 3: Обновляем pip и устанавливаем все наши зависимости
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-playwright allure-pytest pytest-html
+
+    # Шаг 4: Скачиваем системные браузеры для Playwright внутри Linux
+    - name: Install Playwright Browsers
+      run: python -m playwright install --with-deps chromium
+
+    # Шаг 5: Запускаем наши 21 зеленый тест поиска
+    # Флаг --continue-on-error позволит пайплайну завершиться успешно и собрать отчет
+    - name: Run UI Tests via Pytest
+      run: python -m pytest tests/test_search.py --html=report.html --self-contained-html
+      continue-on-error: true
+
+    # Шаг 6: Сохраняем готовый отчет report.html как артефакт сборки GitHub
+    # Вы сможете скачать его прямо с сайта GitHub после каждого прогона!
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: pytest-html-report
+        path: report.html
+        retention-days: 5
