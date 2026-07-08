@@ -1,5 +1,7 @@
 .idea/
 pycache/
-*/pycache/
-allure-results/
 .pytest_cache/
+*.html
+allure-results/
+reports/
+.venv/
