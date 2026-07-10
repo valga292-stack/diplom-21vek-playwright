@@ -33,3 +33,5 @@ def test_search_shows_results_page(browser_page, search_query):
         else:
             titles = results.get_all_product_titles()
             assert len(titles) > 0, f"По запросу '{search_query}' маркетплейс не вернул ни одного товара!"
+
+

@@ -1,5 +1,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
+import sqlite3
+from datetime import datetime
 
 @pytest.fixture(scope="session")
 def browser():
@@ -20,6 +22,40 @@ def browser_page(browser):
     yield page
     context.close()
 
+
+import sqlite3
+import pytest
+from datetime import datetime
+
+
+@pytest.fixture(scope="session", autouse=True)
+def log_to_database():
+    """Фикстура БД: Логирование времени запуска тестовой сессии в базу SQLite"""
+    # Создаем подключение к базе данных в памяти (она уничтожится после тестов)
+    conn = sqlite3.connect(":memory:")
+    cursor = conn.cursor()
+
+    # Создаем простую таблицу для логов
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS test_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_name TEXT,
+            timestamp TEXT
+        )
+    """)
+
+    # Записываем событие старта
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute(
+        "INSERT INTO test_logs (event_name, timestamp) VALUES (?, ?)",
+        ("Test Session Started", current_time)
+    )
+    conn.commit()
+
+    yield
+
+    # Закрываем соединение после окончания всех тестов
+    conn.close()
 
 
 
