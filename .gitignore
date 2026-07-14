@@ -1,7 +1,9 @@
 .idea/
-pycache/
+__pycache__/
 .pytest_cache/
 *.html
 allure-results/
 reports/
 .venv/
+*.pyc
+*.pyo
