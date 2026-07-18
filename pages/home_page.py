@@ -2,8 +2,7 @@ from pages.base_page import BasePage
 
 class HomePage(BasePage):
     def __init__(self, page):
-        super().init(page)
-
+        super().__init__(page)
     URL = "http://21vek.by"
     SEARCH_INPUT = "input#catalogSearch"
     SEARCH_BUTTON = "button.Search_searchBtn__Tk7Gw"

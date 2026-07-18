@@ -3,26 +3,24 @@ from pages.base_page import BasePage
 
 class SearchResultsPage(BasePage):
     def __init__(self, page):
-        super().init(page)
+        super().__init__(page)
 
         # Локаторы названий товаров
-        self.PRODUCT_TITLES = "span.resultname, [class*='title'], [class*='name'], .stylesproductTitle"
-
+        self.PRODUCT_TITLES = "a[href*='21vek.by']:has(span), .styles_productTitle__, a[href*='/mobile/'], a[href*='/notebooks/']"
         # Гибкий селектор: ищет кнопку по классам или по тексту "В корзину" внутри карточки
         self.ADD_TO_CART_BUTTON = "button:has-text('В корзину'), button[class*='buyButton'], button[class*='toBasket']"
-
         # Иконка корзины в шапке сайта
         self.HEADER_CART_BUTTON = "header a[href*='basket'], .headerCart, [class*='basket']"
 
     def get_all_product_titles(self):
-        self.page.wait_for_selector(self.PRODUCT_TITLES, timeout=5000)
+        self.page.wait_for_selector(self.PRODUCT_TITLES, timeout=15000)
         elements = self.page.locator(self.PRODUCT_TITLES).all()
         return [el.inner_text() for el in elements]
 
     def add_first_product_to_cart(self):
         """Нажать 'В корзину' на первом товаре и перейти в корзину"""
         # Сначала убеждаемся, что названия товаров загрузились
-        self.page.wait_for_selector(self.PRODUCT_TITLES, timeout=5000)
+        self.page.wait_for_selector(self.PRODUCT_TITLES, timeout=15000)
 
         # Находим ПЕРВУЮ видимую карточку товара и кликаем в ней по кнопке корзины
         first_product = self.page.locator(self.PRODUCT_TITLES).first

@@ -1,5 +1,5 @@
 class BasePage:
-    def init(self, page):
+    def __init__(self, page):
         self.page = page
 
     def open(self, url: str):

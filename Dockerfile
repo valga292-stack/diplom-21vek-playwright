@@ -13,4 +13,4 @@ RUN python -m playwright install --with-deps chromium
 COPY . .
 
 # Команда по умолчанию для запуска тестов
-CMD ["python", "-m", "pytest"]
+CMD ["python", "-m", "pytest"

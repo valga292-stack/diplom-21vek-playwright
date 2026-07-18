@@ -19,6 +19,7 @@ def browser_page(browser):
         locale="ru-RU"
     )
     page = context.new_page()
+    page.set_default_timeout(60000)
     yield page
     context.close()
 

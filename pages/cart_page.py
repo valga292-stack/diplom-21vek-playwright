@@ -3,14 +3,22 @@ from pages.base_page import BasePage
 
 class CartPage(BasePage):
     def __init__(self, page):
-        super().init(page)
+        super().__init__(page)
 
-    PRODUCT_TITLE = "a[class*='Item_title'], [class*='title'], [class*='ItemTitle'], a[href*='product']"
+        # Точный локатор названия товара в корзине
+        self.PRODUCT_TITLE = "a[class*='Item_title'], a[href*='/mobile/'], a[href*='/notebooks/']"
 
-    # Сверхширокий локатор кнопки удаления: ищет любую кнопку или ссылку со словом 'Удалить' или 'delete' в коде
-    DELETE_BUTTON = "button:has-text('Удалить'), [aria-label*='Удалить'], [aria-label*='delete'], button[class*='delete'], button[class*='remove'], [class*='deleteButton']"
+        # Кнопка удаления товара из корзины
+        self.DELETE_BUTTON = "button:has-text('Удалить'), button[class*='remove'], button[class*='delete']"
 
-    EMPTY_CART_MESSAGE = "[class*='Empty'], :has-text('Корзина пуста'), :has-text('пуста')"
+        # Кнопка "+" для изменения состояния
+        self.PLUS_BUTTON = "button[class*='increment'], button[class*='plus'], button:has-text('+')"
+
+        # Поле стоимости товара для проверки пересчета цены
+        self.PRODUCT_PRICE = "span[class*='price'], div[class*='price'], .cr-cart__price"
+
+        # Сообщение о том, что корзина пуста
+        self.EMPTY_CART_MESSAGE = "span:has-text('Корзина пуста'), [class*='Empty']"
 
     def get_product_title_in_cart(self):
         """Получить название товара, лежащего в корзине"""
