@@ -46,3 +46,9 @@ class CartPage(BasePage):
             return self.page.locator(self.EMPTY_CART_MESSAGE).first.is_visible()
         except Exception:
             return False
+
+    def get_product_price(self):
+        # Метод возвращает текстовое значение цены для проверки калькулятора пересчета
+        price_locator = "[class*='price'], [class*='Price'], .g-price"
+        self.page.wait_for_selector(price_locator, timeout=10000)
+        return self.page.locator(price_locator).first.text_content()
