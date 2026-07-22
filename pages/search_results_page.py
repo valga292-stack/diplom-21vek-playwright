@@ -6,7 +6,7 @@ class SearchResultsPage(BasePage):
         super().__init__(page)
 
         # Локаторы названий товаров
-        self.PRODUCT_TITLES = "a[href*='21vek.by']:has(span), .styles_productTitle__, a[href*='/mobile/'], a[href*='/notebooks/']"
+        self.PRODUCT_TITLES = "a[data-code], [data-code] a, [class*='Title'], .styles_productTitle__"
         # Гибкий селектор: ищет кнопку по классам или по тексту "В корзину" внутри карточки
         self.ADD_TO_CART_BUTTON = "button:has-text('В корзину'), button[class*='buyButton'], button[class*='toBasket']"
         # Иконка корзины в шапке сайта

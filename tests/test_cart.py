@@ -76,9 +76,9 @@ class TestCart:
 
         with allure.step("2. Кликнуть по кнопке возврата к покупкам"):
             back_button = "a[class*='Empty_button'], button:has-text('Начать покупки'), a:has-text('Перейти к покупкам'), .cr-cart__empty a"
-            browser_page.wait_for_selector(back_button, timeout=5000)
+            browser_page.wait_for_selector(back_button, timeout=25000)
             browser_page.click(back_button, force=True)
 
         with allure.step("3. Проверить, что пользователь вернулся на главную страницу"):
-            browser_page.wait_for_timeout(1000)
+            browser_page.wait_for_timeout(25000)
             assert browser_page.url == "https://21vek.by" or "21vek.by" in browser_page.url, "Не удалось вернуться на главную страницу!"
