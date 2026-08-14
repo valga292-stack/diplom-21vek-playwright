@@ -38,3 +38,14 @@ class SearchResultsPage(BasePage):
 
         return product_name
 
+    def verify_products_are_found(self, search_query):
+        """Проверить, что на странице отображаются карточки товаров по запросу"""
+        self.page.wait_for_timeout(2000)
+        cards_count = self.page.locator(self.PRODUCT_TITLES).count()
+        assert cards_count > 0, f"Товары по запросу '{search_query}' не найдены на странице!"
+
+    def verify_no_products_found(self):
+        """Проверить, что кнопки покупки отсутствуют (негативный сценарий)"""
+        self.page.wait_for_timeout(2000)
+        buy_buttons_count = self.page.locator(self.ADD_TO_CART_BUTTON).count()
+        assert buy_buttons_count == 0, f"Ошибка! Найдено {buy_buttons_count} кнопок покупки для невалидного запроса!"
